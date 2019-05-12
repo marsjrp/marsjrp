@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<!--
+
+MANTENHA OS CRÉDITOS FI DA MÃE!
+SLACKJEFF RULES.
+
+-->
+<html lang="pt-br">
+    <head>
+        <title>Como criar um alias.</title>
+        <meta charset="utf-8">
+        <meta name="author" content="Jefferson Rocha"/>
+        <meta name="email" content="lrcjefferson@gmail.com"/>
+        <meta name="description" content="Site pessoal do Slackjeff"/>
+        <meta http-equiv="content-language" content="pt-br"/>
+        <meta name="copyright" content="© 2018 Jefferson Rocha"/>
+        <meta name="rating" content="general"/>   
+        <link rel="shortcut icon" type="image/png" href="../img/photo.png"/>
+        <style>
+        	body{color: #0a0a0a;margin: 1em auto;max-width: 44em; font-size: 1.2em;}
+        	.mark{background-color: #313131; color: white; padding: 0.5%}
+        </style>
+</head>
+<body>
+<h1>Como criar um alias.</h1>
+<b>Autor: Jefferson 'Slackjeff' Rocha</b><br>
+<b>Atualização: 05/07/2018</b><br>
+
+<h2 class="mark">Entrada</h2>
+
+<p>
+Ao final deste HOWTO você será capaz de entender o conceito do alias e criar
+os seus próprios "Comandos" personalizados.
+</p>
+
+
+<h2 class="mark">O que é um alias?</h2>
+
+<p>
+Um alias é um nick/apelido que damos para um determinado comando, assim fica
+mais fácil fazer a chamada do mesmo. Imagine você com um comando imenso e 
+precisa digitar aquela ripa todos os dias, isso é inviável e dá até preguiça
+de pensar.
+</p>
+
+
+<h2 class="mark">Criando nosso primeiro alias</h2>
+
+<p>
+Para criar nosso primeiro alias, vamos usar o comando ls que serve para listar
+um diretório. Note que se você rodar o comando puramente ele não tem muita fi-
+rula. E que tal adicionarmos uma firulinha nele? vamos deixar a nossa saída
+colorida e para isto usamos o parâmetro --color
+</p>
+
+<pre>
+$ <b>ls --color</b>
+</pre>
+
+<p>
+Note que a saída agora não saiu crua e sim colorida, mas não achei viável está
+parte, poxa rodar sempre ls --color vai doer meus dedos no final do dia. Então
+que tal criar um nick para ele? para isso o alias é invocado!
+Sua sintaxe é bem simples e não tem muito misterio.
+</p>
+
+<pre>
+<b>alias ComandoOriginal="Comando --OPCOES"</b>
+</pre>
+
+<p>
+Note que basicamente é como se você estivesse declarando uma váriavel,
+porém o alias está na frente!
+Vamos fazer nosso primeiro teste com o comando ls, vamos por ele para trabalhar
+usando a opção --color como vimos lááá em cima.
+</p>
+
+<pre>
+$ <b>alias ls="ls --color"</b>
+</pre>
+
+<p>
+Uma nota importante é que o alias é salvo somente no processo/shell atual!
+A partir da hora que você fecha este processo o mesmo se perderá nas entranhas
+do Linux. É ai que entra o próximo tópico silverão!
+</p>
+
+
+<h2 class="mark">Deixando nosso alias salvo</h2>
+
+<p>
+Para deixar nosso alias salvo temos várias maneiras, mas eu gosto sempre de
+deixar cada um no seu quadrado, ou seja nada de global! Afinal se minha filha
+por exemplo querer usar um alias chamado tio_patinhas eu terei que usar tbm?
+Não! por isso use local!
+Para isto é só fazer a mesma chamada que você vez em linha no arquivo .bashrc
+que está localizado no seu home! Importante lembrar, se não existir este arq-
+uivo, você pode criar. Note que esse HOWTO é de bash, mas dá para se adaptar
+a outro shell 'No problems teacher'.
+Abra seu editor favorito e adicione a linha lá dentro, após feito isto finalize
+o processo atual do bash e retorne e execute o comando.
+</p>
+
+<pre>
+$ <b>nano $HOME/.bashrc</b>
+</pre>
+
+<p>
+Vou dar uma incrementada e por um comentário antes de jogar o alias!
+Só para dar um detalhezinho a mais.
+</p>
+
+<pre>
+# Agora ls é colorido, frufru.
+<b>alias ls="ls --color"</b>
+</pre>
+
+<p>
+Salve e feche, não esqueça de reiniciar seu Processo Bash atual!
+</p>
+
+</body>
+</html>

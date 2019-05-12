@@ -1,0 +1,312 @@
+
+<!DOCTYPE html>
+<!--
+
+MANTENHA OS CRÉDITOS FI DA MÃE!
+SLACKJEFF RULES.
+
+-->
+<html lang="pt-br">
+    <head>
+        <title>Programar em Shell - Só para Baixinhos.</title>
+        <meta charset="utf-8">
+        <meta name="author" content="Jefferson Rocha"/>
+        <meta name="email" content="lrcjefferson@gmail.com"/>
+        <meta name="description" content="Site pessoal do Slackjeff"/>
+        <meta http-equiv="content-language" content="pt-br"/>
+        <meta name="copyright" content="© 2018 Jefferson Rocha"/>
+        <meta name="rating" content="general"/>   
+        <link rel="shortcut icon" type="image/png" href="../img/photo.png"/>
+        <style>
+        	body{color: #0a0a0a;margin: 1em auto;max-width: 44em; font-size: 1.2em;}
+        	.mark{background-color: #313131; color: white; padding: 0.5%}
+        </style>
+</head>
+<body>
+<h1>Programar em Shell - Só para Baixinhos.</h1>
+<b>Autor: Jefferson 'Slackjeff' Rocha</b><br>
+<b>Atualização: 16/10/2017</b><br>
+
+<h2 class="mark">SIMPLIFICAÇÃO</h2>
+
+<p>
+Antes de iniciar, eu gostaria de simplificar as coisas: 
+</p>
+
+
+<h2 class="mark">O QUE É UMA LINGUAGEM DE PROGRAMAÇÃO</h2>
+
+<p>
+Uma linguagem de programação, nada mais é que um intérprete da linguagem para a 
+linguagem da máquina. Vou ser simples e tenho certeza que você irá entender, pensa 
+comigo, imagine você em um restaurante almoçando e senta na sua mesa um velho 
+amigo, aquele amigo de infância que estava morando na Rússia, porém, só fala em 
+russo:
+</p>
+
+<pre>
+Ele senta e fala pra você:  Привет, как дела?
+Você olha e fala: Oi? Eu não entendi.
+E ele responde: Что ты сказал?
+</pre>
+
+<p>
+Você olha e fica parado, sem saber o que falar e porque? Você não entendeu 
+correto... você não fala russo. Agora, supondo que a situação seja a mesma, porém, 
+a sua esposa está almoçando com você, ela é bilíngue e fala russo: 
+</p>
+
+<pre>
+Seu amigo senta e fala:  Привет, как дела?
+Sua esposa olha pra você e fala: ele perguntou se está tudo bem com você!
+Você diz para ela:  fala pra ele que estou muito bem e como está a moradia na 
+russia?
+Sua esposa olha e responde para seu amigo:  Я очень хорошо... и как дома в России?
+</pre>
+
+<p>
+E assim conseguimos fluir o assunto correto? Com uma interprete, mesmo você não 
+falando naquela linguagem, você tem uma pessoa traduzindo e te ajudando correto? A 
+linguagem de programação é isso, ela é a intérprete da nossa linguagem para a 
+linguagem da máquina. 
+</p>9
+
+<p>
+<b>VOCÊ > INTÉRPRETE > MÁQUINA</b>
+</p>
+
+
+<h2 class="mark">QUERIDO SHELL SCRIPT</h2>
+ 
+<p>
+Vira e mexe, eu ouço uma velha frase: shell script é a linguagem mais fácil que 
+pode existir, é muito fácil programar em Shell. 
+</p>
+
+<p>
+Essa afirmação é correta com certeza, a sintaxe é de fácil entendimento, porém, 
+assim como toda linguagem de programação, ela é complexa também, temos que ser 
+realistas... Muitos programam em Shell, mas poucos realmente dominam.
+</p>
+
+<p>
+Esta dica vem para fortalecer o fórum do VOL e aos iniciantes... a visão é para 
+ajudar os iniciantes a escolher está linguagem como a primeira, já que ela é 
+simples, poderosa e complexa. Vou abordar sobre os benefícios e rodar a 'baihana' 
+também, quero um equilíbrio nesta dica, prós e contras. 
+</p>
+
+<p>
+Vi e queria desver, coisas na internet que desprezam a poderosa linguagem do Shell: 
+"se você não é Sysadmin e não trabalha com isso não leve esta linguagem tão a 
+sério, apenas entenda." 
+</p>
+
+<p>
+Estas pessoas provavelmente criam arquivos com o touch! haha 
+As pessoas que falam isto estão certas na opinião delas, eu não vou dizer que não. 
+</p>
+
+<p>
+Mas dá pra fazer com o Shell o que qualquer outra linguagem faria, e deixa eu te 
+sussurrar algo! (MELHOR/MENOR), melhor e menor? Tá de brincadeira, é serio? Claro 
+que eu estou falando a verdade, dá pra fazer em uma única linha o que se faria em 
+40 linhas ou mais no Java, sem falar que é muito mais rápido, dizem que o Shell só 
+perde para o C em questão de velocidade de execução... bom é o que dizem. Eu não 
+programo em C, mas deixo aqui o meu debate, seja gentil e comente a sua opinião. 
+</p>
+
+
+<h2 class="mark">Not compile, just run!</h2>
+
+<p>
+Shell script não é uma linguagem que precisa de compilação, ela é uma linguagem 
+interpretada, então meu baixinho (xuxete falando), apenas execute e teste, faça 200 
+linhas de código e apenas execute. Deu erro? O bash vai te mostrar aonde, ahhh mas 
+eu quero ver linha a linha, utilize o "bash -x nomedoprograma", que é um poderoso 
+debug do próprio bash, ele irá mostrar passo a passo do que está acontecendo em seu 
+programa e aonde você está falhando. 
+</p>
+
+<p>
+Deu erro? Apenas abra seu editor, edite e rode novamente! 
+</p>
+
+<p>
+Sensacional não? Pois é, isso é um benefício e provavelmente te deixará preguiçoso 
+quando o assunto é aprender linguagens compiladas! 
+</p>
+
+<p>
+Existe um truque que você pode compilar e tornar o seu programinha binário, procure 
+por (SHC) ou leia essa dica aqui do VOL:
+Compilar shell script [Dica]
+</p>
+
+<p>
+Esta técnica é interessante, às vezes, o programador fez um programa que irá ser 
+vendido e tem uma licença específica, mas não quer liberar o seu código, ou o 
+código é restrito somente à empresa e não pode ter vazamento, se vazar não tendo 
+chances para hacker ler o fonte e achar uma vulnerabilidade. 
+</p>
+
+<p>
+Bom, cada um faz o que bem entender, a ferramenta existe e estou lhe apresentando 
+senhores, sou a favor quando o assunto é segurança (sem mi-mi-mi), sou especialista 
+em segurança GNU/Linux, trabalho com servidores desde os 15 anos e na multinacional 
+em que trabalho, utilizamos está técnica em alguns programas que precisam ser 
+restritos. 
+</p>
+
+<h2 class="mark">BARREIRAS</h2>
+ 
+<p>
+Existem barreiras quando se programa Shell? Claro, vou te explicar. 
+</p>
+
+<p>
+A grande barreira para os iniciantes nesta linguagem, é que precisam além de 
+aprender a estrutura desta linguagem, o que é normal em qualquer linguagem, ainda 
+precisam conhecer os comandos do mesmo, já que praticamente qualquer programinha 
+que você fizer, irá utilizar comandos do Linux/Unix para tornar seu programa 
+usável. 
+</p>
+
+<p>
+Um probleminha chato, são as diferenças que existem em cada Shell, você 
+provavelmente vai começar a programar com o Bash, já que este está presente em 90% 
+das distribuições Linux, salvo a Emmi, que é meu projeto que é Fish padrão (haha), 
+mas os seus scripts não vão rodar perfeitamente no Fish, ou KSH, sendo feitos em 
+cima do Bash, acostume-se. 
+</p>
+
+<p>
+Isso dificulta um pouco quando você resolve deixar o seu programinha publicamente, 
+o usuário ou você mesmo terá que fazer versões diferentes. É só ajustar o shebang 
+(não seja pornográfico, rapaz malicioso) chamando outro shell, #!/bin/ksh ou 
+/bin/fish, tem certeza? 
+</p>
+
+<p>
+Será que todo script vai rodar certinho? Cada um tem sua particularidade, eu aposto 
+que não vai rodar certo ainda mais se o programa é mais complexo, então, tome 
+cuidado e sempre especifique em qual base shell foi feita. 
+</p>
+
+<p>
+E se o programa for bem estruturado e mais complexo, faça em outras bases também, 
+isso é bacana apesar que vai te exigir mais mãos para ajustar bugs! Mas esqueça 
+isso no começo, apenas já alertando! 
+</p>
+
+<p>
+Outra grande barreira, é a questão que todos comandos têm mais de um caminho que se 
+pode seguir, ou seja, em cada momento, em cada programa, ou talvez no mesmo, você 
+usará algo diferente, que te levará ao mesmo caminho! Porém, alguns fazem todo um 
+círculos e outros são diretos! 
+</p>
+
+<p>
+<b>Quer um exemplo bem fácil?</b>
+</p>
+
+<p>
+Eu quero que toda entrada de dados (input) que o usuário der, se converta em letras 
+maiúsculas. Fácil! 
+</p>
+
+<pre>
+read -p		var "Entre com os dados: "; | tr '[:lower:]' '[:upper:]'
+Mas, pra que essa curva toda? Podemos usar simplesmente o TYPESET com a opção "-l" 
+(menos ÉLE), ficando: 
+
+typeset -l var
+Foi mais direto, não foi? Existem outras 10 maneiras para fazer isto! Então, cabe 
+ao programador decidir o que usar e como usar. Há momentos que um comando se 
+encaixa melhor, isto depende da ocasião. 
+</pre>
+
+
+<h2 class="mark">APRENDIZAGEM</h2>
+
+<p>
+A sua aprendizagem nunca irá acabar, você sabe, né? Isto é em qualquer linguagem, 
+mas com o Shell é diferente, a mágica que envolve é sem igual, você domina a 
+linguagem e a bagagem extra é dominar o próprio sistema! 
+</p>
+
+<p>
+Então, um programador que domina o Shell Script, com toda certeza, será um 
+SysAdmin 
+que domina o sistema também, que linguagem te trás isso? Já pensou você dominando o 
+sistema que está presente em 80% dos servidores do mundo? 
+</p>
+
+<p>
+"Jefferson, você falou demais cara, fala de uma vez como aprender essa linguagem 
+que eu não aguento mais ler!" 
+</p>
+
+<p>
+Se interessou, né? Eu vou te dar uma ajuda sobre qual rumo tomar! 
+</p>
+
+<p>
+Primeiramente, se você pensou em trocar aquele seu dinheiro suado, que ralou pra 
+conseguir no trabalho por cursos, eu não indico muito... Cursos te ajudam a 
+entender, claro! Mas, se você não for interessado, não vai aprender, baixinho. Pode 
+pagar o melhor professor do mundo. "No pain, no gain!" 
+</p>
+
+<p>
+Aconselho você estudar pelo melhor curso que existe, o curso da internet. O 
+material aqui é extenso, sem fundo! Porém, merece ser muito filtrado! Já que com 
+grandes poderes, vem grandes responsabilidades, não? Tem material bom e tem 
+material lixo, então, filtre! 
+</p>
+
+<p>
+Aprendizagem é como a vida e a morte, você vem ao mundo sozinho e partirá sozinho! 
+Cabe a você somente conseguir transformar esta estrada em vitorias e conhecimento! 
+Após iniciar seus estudos e se gostar, eu indico comprar um bom livro sobre Shell e 
+degustar com sabor cada trecho! 
+</p>
+
+<p>
+Somente após feito esse processo e querer se aprimorar melhor, faça curso, é 
+interessante a partir deste ponto. 
+</p>
+
+<p>
+Quando eu fui renovar meu conhecimento em HTML5 e CSS3, o qual eu tinha parado em 
+XHTML eu comecei lendo e estudando pela internet. Quando vi que já tinha um 
+conhecimento legal, eu fiz curso presencial de HTML5, CSS3 e responsivo. A 
+carruagem fluiu bem! 
+</p>
+
+<p>
+Outra grande dica, é: antes de tudo, aprenda a estrutura básica para começar a 
+brincadeira, (input, output, if, case, functions, for, while, arrays, variables). 
+Aprendendo esta estrutura, você já vai começar a entender bem a mágica! Dedique-se 
+2 horas diárias, todo santo dia... leia e releia. Faça bastantes programas 
+(toscos), isso te ajudara a entender as coisas. 
+</p>
+
+<p>
+Se você despreza matemática, não vá fazer uma calculadora, hein baixinho... brinque 
+com outras coisas, só não desanima, vá por mim, que eu já fui um iniciante (e 
+sempre vou ser). 
+</p>
+
+<p>
+De resto, é tempo. O tempo é o senhor do conhecimento e conforme ele passa, você 
+aprende o que jamais acharia que iria compreender, todo mundo é programador! Basta 
+exercer e estudar! Você é um vencedor apenas por respirar e continuar vivo! 
+</p>
+
+<p>
+Abraço a todos, fiquem com Deus e bons estudos, futuros "Shelleiros"! 
+</p>
+
+</body>
+</html>

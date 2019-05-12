@@ -1,0 +1,193 @@
+
+
+<!DOCTYPE html>
+<!--
+
+MANTENHA OS CRÉDITOS FI DA MÃE!
+SLACKJEFF RULES.
+
+-->
+<html lang="pt-br">
+    <head>
+        <title>Teclado Devastator, Scroll Lock e I3WM</title>
+        <meta charset="utf-8">
+        <meta name="author" content="Jefferson Rocha"/>
+        <meta name="email" content="lrcjefferson@gmail.com"/>
+        <meta name="description" content="Site pessoal do Slackjeff"/>
+        <meta http-equiv="content-language" content="pt-br"/>
+        <meta name="copyright" content="© 2018 Jefferson Rocha"/>
+        <meta name="rating" content="general"/>   
+        <link rel="shortcut icon" type="image/png" href="../img/photo.png"/>
+        <style>
+        	body{color: #0a0a0a;margin: 1em auto;max-width: 44em; font-size: 1.2em;}
+        	.mark{background-color: #313131; color: white; padding: 0.5%}
+        	h3{background-color: #c9c9c9; padding: 0.5%;}
+            pre{background-color: #dadada; padding: 2%; box-shadow: 1px 1px 1px #c3c3c3;}
+        </style>
+</head>
+<body>
+<h1>Teclado Devastator, Scroll Lock e I3WM</h1>
+<b>Autor: Jefferson 'Slackjeff' Rocha</b><br>
+<b>Atualização: 28/03/2019</b><br>
+
+
+<h2 class="mark">INÍCIO</h2>
+
+<p>
+Recentemente eu recebi de doação do amigo criptografico <b>Ayr</b>, um teclado Devastator CM-STORM da Cool Master.
+</p>
+
+<p>
+Um teclado sem dúvidas lindo, macio e gostoso de usar. Porém enfrentei um problema muito chato no meu I3wm. Por ser um teclado que possui leds a iguinição dele funciona atráves do Scroll Lock.
+</p>
+
+<p>
+E cada vez que eu apertava o Scroll Lock o teclado era bloqueado e eu não conseguia me locomover atráves das Áreas de trabalhos virtuais, com meu bind (windows).
+Ou seja, para conseguir trabalhar eu precisava usar o Led desligado.
+</p>
+
+<p>
+Este problema não era notavel no Xfce e no Kde, mas no I3wm não tinha como continuar com a brincadeira.
+</p>
+
+<p>
+Então comecei a pensar e bater a cabeça qual seria a melhor solução para resolver o meu problema.
+A primeira ideia foi remapear o teclado! Mas puto trabalho ein?
+</p>
+
+<p>
+Então resolvi apelar para o Shell Script e com alguns passos eu consegui resolver meu problema temporáriamente.
+</p>
+
+<p>
+Com uma receita simples de Achar a valor do Scroll Lock e criar um script, seu problema será resolvido!
+</p>
+
+<h2 class="mark">Desativando o Scroll Lock</h2>
+
+<p>
+A primeira brincadeira é usar o comando <b>xev</b>, você ira precisar habilitar e desabilitar o Scroll Lock para conseguir ver qual o Valor/Value dele.
+Para isto envie a saída para um arquivo para ter melhor visibilidade.
+</p>
+
+<p>
+Após isso vamos usar o grep para fazer a filtragem e o awk para pegar somente os campos que necessitamos.
+</p>
+
+<pre>
+$ <b>xev</b> > resultado
+$ grep "Scroll" result | awk '{print $3,$4}'
+keycode <b>78</b>
+</pre>
+
+<p>
+Ou se preferir você pode pegar a saida sem cortes.
+</p>
+
+<pre>
+$ grep "Scroll" result
+state 0x30, <b>keycode 78</b> (keysym 0xff14, Scroll_Lock), same_screen YES,
+</pre>
+
+<p>
+Perceba que o Keycode do Scroll Lock é <b>78</b>, vamos agora desabilitar o Scroll Lock, para não ter mais problemas com ele.
+</p>
+
+<p>
+Para esta finalidade vamos usar o comando <b>xmodmap</b>, sua sintaxe é: <b>xmodmap -e 'keycode &ltvalue>=&ltaction>'</b>.
+</p>
+
+<p>
+Em <b>&ltvalue></b> você utilizará o valor capturado com o comando <b>xev</b>, e após o sinal de <b>=</b> você deixará em branco.
+</p>
+
+<pre>
+$ <b>xmodmap -v -e 'keycode 78='</b>
+! 1:  keycode 78=
+        keycode 0x4e =
+!
+! executing work queue
+!
+        keycode 0x4e =
+
+</pre>
+
+<h2 class="mark">O Script Colorido</h2>
+
+<p>
+Para facilitar nossa vida eu criei um script a qual deverá ser executado no auto-start da interface gráfica! 
+Para ambientes via TTY ou Não GUI, você necessitará de outra receita.
+</p>
+
+<p>
+Na variável <b>led_off</b> perceba que o valor é 00000000. Este retorno da quando todos os leds do teclado estão desligados!
+</p>
+
+<p>
+<u>Se caso você necessite encontrar um outro tipo de retorno use o comando</u>:<br>
+</p>
+
+<pre>
+xset -q | grep "LED" | awk '{print $10}'
+</pre>
+
+<p>
+Se não você pode seguir.
+</p>
+
+<pre>
+$ cat led_devastator
+
+#!/usr/bin/env bash
+#==================HEADER============================================|
+#AUTOR
+# Jefferson Rocha
+#
+# Resolve o problema para ativar o led no teclado CM-DEVASTATOR
+# Cooler Master Devastator - LED Gaming Keyboard 
+#====================================================================|
+
+#=======================VARIAVEIS
+
+led_off='00000000'
+key_code='78'
+
+# Pegando LED Mask
+LED_STATUS=$(xset -q | grep "LED" | awk '{print $10}')
+
+# Desabilitando Scroll Lock
+xmodmap -e 'keycode ${key_code}='
+
+# Ligando
+if [[ "$LED_STATUS" = "${led_off}" ]]; then
+    xset led 3 # Ligando LED
+else
+    xset -led 3 # Desligando LED
+fi
+
+exit 0
+
+</pre>
+
+<p>
+Dê permissão de execução e envie o script para /usr/bin, para ter um acesso global.
+</p>
+
+<pre>
+# cp led_devastator /usr/bin/
+</pre>
+
+<p>
+Agora vamos adicionar no arquivo de configuração do i3, <b>.config/i3/config</b> presente na home do seu usuário o seguinte comando:
+</p>
+
+<pre>
+exec led_devastator
+</pre>
+
+<p>
+E pronto, agora seu teclado estara com o led ligado sem problemas. Basta reiniciar sua interface e ter o led colorindo sua vida.
+</p>
+
+</body>
+</html>

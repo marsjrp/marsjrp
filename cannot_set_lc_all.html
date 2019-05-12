@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<!--
+
+MANTENHA OS CRÉDITOS FI DA MÃE!
+SLACKJEFF RULES.
+
+-->
+<html lang="pt-br">
+    <head>
+        <title>Cannot Set LC_ALL</title>
+        <meta charset="utf-8">
+        <meta name="author" content="Jefferson Rocha"/>
+        <meta name="email" content="lrcjefferson@gmail.com"/>
+        <meta name="description" content="Site pessoal do Slackjeff"/>
+        <meta name="keywords" content="shell script, slackware, vídeos, linux, how-to, blog, xiita slackware, linux raiz"/>
+        <meta http-equiv="content-language" content="pt-br"/>
+        <meta name="copyright" content="© 2018 Jefferson Rocha"/>
+        <meta name="rating" content="general"/>   
+        <link rel="shortcut icon" type="image/png" href="../img/photo.png"/>
+        <style>
+        	body{color: #0a0a0a;margin: 1em auto;max-width: 44em; font-size: 1.2em;}
+        	.mark{background-color: #313131; color: white; padding: 0.5%}
+        </style>
+</head>
+<body>
+<h1>Resolvendo o Erro Cannot Set LC_ALL no Slackware</h1>
+<b>Autor: Jefferson 'Slackjeff' Rocha</b><br>
+<b>Atualização: 18/09/2018</b><br>
+
+<h2 class="mark">Mão na massa!</h2>
+
+<p>Depois de compilar e atualizar alguns pacote do GIMP no meu Slackware acabou
+que dando um bug no meu i3wm na barra i3status, e também se eu digitasse um
+comando que não existia ele retornava as acentuações todas bugadas!<br>
+Normalmente quando um erro deste acontece já sabemos o real motivo, fui ver
+se nas configurações em /etc/profile.d/lang.sh estava setado certo a linguagem
+e sim estava tudo certo! dei um echo na variável de ambiente $LANG e também
+estava tudo certinho, o primeiro passo foi descartado, então comecei pelo
+problema do i3status para ver se a solução se resolveria, basicamente o erro
+que me retornava no i3status era:
+</p>
+
+<p>"Error:status_command process exited unexpectedly (exit 1)"</p>
+
+
+
+<p>Esse erro é muito genérico e não tem como saber qual real motivo do erro!
+O jeito foi ir para o console de navegação e ver melhor qual o erro definitivo
+que estava acontecendo, presionei CTRL + ALT + F1 e verifiquei as mensagens
+que estavam rolando, o i3 estava apontando um erro mais "resolvido" estando
+reclamando da variável 'LC_ALL' e 'LC_C'.
+"locale: Cannot Set LC_ALL to default locale: No such file or directory."
+</p>
+
+<p>Rodei o comando locale e o verifiquei que estava dando um erro na variável
+LC_C a coisa começou a ficar mais confusa e ai comecei a trabalhar em cima
+deste erro!
+O jeito que eu resolvi o erro no i3status foi muito fácil, eu rodei o comando
+localedef com alguns parâmetros e já era, como usuário comum:</p>
+
+
+<p>$ <b>localedef -v -c -i</b> en_US -f UTF-8 pt_BR.UTF-8</p>
+
+<p>Os parâmetros usados no localedef:<br>
+<li><b>-v</b>  Verbose</li>
+<li><b>-c</b>  Force, cria saída mesmo que a mensagem de aviso forem produzidas</li>
+<li><b>-i</b>  Input File, arquivo de entrada</li>
+
+<p>Pressionei meu keybind que no caso é o <b>ALT</b>, '<b>ALT + SHIFT + R</b>' para reiniciar
+o i3wm e tchararan, tudo funcionando normalmente!</p>
+
+
+<br>
+
+<h3>Deixe seu comentário!</h3>
+
+<br>
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://slackjeff-com-br.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script id="dsq-count-scr" src="//slackjeff-com-br.disqus.com/count.js" async></script>
+</body>
+</html>

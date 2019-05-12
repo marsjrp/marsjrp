@@ -1,0 +1,259 @@
+
+<!DOCTYPE html>
+<!--
+
+MANTENHA OS CRÉDITOS FI DA MÃE!
+SLACKJEFF RULES.
+
+-->
+<html lang="pt-br">
+    <head>
+        <title>Boot Seguro LILO</title>
+        <meta charset="utf-8">
+        <meta name="author" content="Jefferson Rocha"/>
+        <meta name="email" content="lrcjefferson@gmail.com"/>
+        <meta name="description" content="Site pessoal do Slackjeff"/>
+        <meta http-equiv="content-language" content="pt-br"/>
+        <meta name="copyright" content="© 2018 Jefferson Rocha"/>
+        <meta name="rating" content="general"/>   
+        <link rel="shortcut icon" type="image/png" href="../img/photo.png"/>
+        <style>
+        	body{color: #0a0a0a;margin: 1em auto;max-width: 44em; font-size: 1.2em;}
+        	.mark{background-color: #313131; color: white; padding: 0.5%}
+        	h3{background-color: #c9c9c9; padding: 0.5%;}
+        </style>
+</head>
+<body>
+<h1>Boot Seguro LILO</h1>
+<b>Autor: Jefferson 'Slackjeff' Rocha</b><br>
+<b>Atualização: 28/03/2019</b><br>
+
+
+<h2 class="mark">INÍCIO</h2>
+
+<p>
+Sem dúvida os tempos são de desconfiança em todos. Podemos estar do lado de 
+um invasor e não sabemos como e quando tomaremos um punhal pelas costas.
+A segurança precisa estar em dia sempre e deixar um computador desprotegido 
+é trágedia na certa.
+</p>
+
+<p>
+Poucos sabem que podemos deixar o <b>LILO - LInux LOader</b> mais seguro, 
+apesar de existir boa documentação, muitas vezes deixamos escapar alguns 
+detalhes.
+</p>
+
+<p>
+Um detalhe por exemplo é que se você passar um simples parâmetro para o 
+LILO <b>linux single</b>
+ podemos entrar em modo single user. Este modo é muitas vezes usado 
+para recuperação do sistema (Recovery Mode), pois te oferece um shell de 
+manutenção e em um pulo estamos na tela de login.
+</p>
+
+<h2 class="mark">O que fazer para aumentar a Segurança no lilo?</h2>
+
+<p>
+Existem algums passos que podemos seguir para atingir nosso objetivo de 
+deixar o lilo mais seguro, sendo eles:
+</p>
+
+<ul>
+	<li>Password</li>
+	<li>Restricted/Mandatory</li>
+	<li>lilo.conf com Permissão 600</li>
+	<li>Senha na Bios</li>
+</ul>
+ 
+<h3>Password</h3>
+
+<p>
+A primeira coisa a se fazer é adicionar uma camada extra, no caso um 
+password...
+</p>
+ 
+<p>
+Este password é carregado logo após você fazer a seleção da Imagem do 
+kernel, para ativar este recurso adicionamos uma variável no arquivo 
+lilo.conf. Este está localizado em /etc/lilo.conf
+</p>
+
+<p>
+Como root, entre com seu editor de texto favorito e localize aonde está a 
+função que faz o carregamento do seu Kernel.
+</p> 
+
+<p>
+Em seguida abaixo da variável <b>image = /boot/vmlinuz</b> adicione a 
+variável <b>password = SEUPASSWORD</b>.
+</p>
+
+<pre>
+# Linux bootable partition config begins
+image = /boot/vmlinuz
+<b>password = MeuPassword</b>
+root = /dev/sda1
+label = Linux
+read-only           
+</pre>
+
+<h3>Restricted</h3>
+
+<p>
+Está opção se ativada, juntamente com o <b>password</b> fará que o lilo 
+solicite a senha, somente se 'parâmetros' como <b>Linux single</b> seja 
+passado.
+</p>
+
+<p>
+Vai lhe garantir uma segurança a mais, assim não permitindo o invasor 
+fisicamente invadir sua máquina. Já que o mesmo conseguirá passar 
+parâmetros de inicialização, mas logo em seguida é pedido a senha.
+</p>
+
+<pre>
+# Linux bootable partition config begins
+image = /boot/vmlinuz
+<b>password = MeuPassword</b>
+<b>restricted</b>
+root = /dev/sda1
+label = Linux
+read-only
+</pre>
+
+<h3>Mandatory</h3>
+
+<p>
+Faz a mesma funcionalidade que a opção <b>restrited</b>, mas é um pouco mais 
+seguro...
+</p>
+
+<p>
+Enquanto a opção restricted só é ativada quando passado parâmetros de 
+inicialização para o kernel, a opção <b>mandatory</b> é ativada sempre.
+Pedindo seu password independente do fator acontecido.
+</p>
+
+<p>
+Está sem dúvida é a melhor e mais segura opção para se passar para o lilo.
+Porém fique atento a um detalhe muito importante. Se usado em um servidor 
+fisico ou remoto e o administrador não ter acesso a está senha, ao iniciar a 
+máquina o password será pedido.<br>
+Barrando assim o mesmo de continuar.
+</p>
+
+<pre>
+# Linux bootable partition config begins
+image = /boot/vmlinuz
+<b>password = MeuPassword</b>
+<b>mandatory</b>
+root = /dev/sda1
+label = Linux
+read-only
+</pre>
+
+<p>
+Utilize a opção <b>restricted</b> ou <b>mandatory</b>, e nunca em conjunto.
+</p>
+
+<h3>Permissão ideal para lilo.conf</h3>
+
+<p>
+Normalmente a permissão 644 é concebido ao arquivo de configuração do 
+lilo, o <b>lilo.conf</b>. Está permissão significa que o Dono do arquivo terá 
+permissão leitura e escrita, o grupo e outros terão permissão de leitura.
+</p>
+
+<p>
+Não é a permissão mais correta a se utilizar quando você tem um password 
+exposto, visível para usuários comuns.
+</p>
+
+<p>
+O ideal para uma segurança maior é utilizar a permissão 600, ou seja, somente 
+o dono que no caso é root terá a liberdade de ler/escrever no arquivo.<br>
+Barrando assim os "outros" de bisbilhotar.
+</p>
+
+<p>
+Como root vamos executar o comando chmod com verbose.
+</p>
+
+<pre>
+# <b>chmod</b> -v u+rw,g-rwx,o-rwx /etc/lilo.conf
+mode of '/etc/lilo.conf' retained as 0600 (rw-------)
+</pre>
+
+<p>
+Ou de uma maneira mais prática e rápida
+</p>
+
+<pre>
+# chmod -v 600 /etc/lilo.conf
+mode of '/etc/lilo.conf' retained as 0600 (rw-------)
+</pre>
+
+<h3>Não se esqueça</h3>
+
+<p>
+Após ter modificado o lilo, você precisa rodar o /sbin/lilo para ter as novas 
+configurações disponivel!
+</p>
+
+<pre>
+# lilo
+Warning: LBA32 addressing assumed
+Added Linux  *
+Added Generic  +
+One warning was issued.
+</pre>
+
+<h3>Senha na Bios</h3>
+
+<p>
+Ok, não adianta fazer todo este processo se sua máquina tem uma brecha braba 
+ainda. O invasor/bisbilhoteiro ao enfrentar estes problemas poderá entrar com 
+uma live-cd, e conseguir bisbilhotar do mesmo jeito.
+</p>
+
+<p>
+Como diz meu pai, porta de ferro, tranca de papel!
+</p>
+
+<p>
+Para conseguimos atingir nosso ponto G, vamos barrar o acesso ao live-cd. 
+Para isto vamos utilizar uma senha na <b>bios</b>. Garantindo assim uma 
+segurança fisica muito maior.
+</p>
+
+<p>
+Apesar de ser um método que pode ser burlado facilmente, por pessoas que tem 
+algum conhecimento, resentando a Bios retirando a pilha ou em computador mais 
+velho fazendo o processo com os jumpers.<br>
+Garantirá para você uma segurança extra para os menos sábios.<br>
+Veja:<br>
+<a href="https://www.computerhope.com/issues/ch000235.htm" 
+target="_blank">https://www.computerhope.com/issues/ch000235.htm</a>
+</p>
+
+<h3>Opinião</h3>
+
+<p>
+Fazendo estas poucas configurações você terá uma privacidade maior, te 
+protegendo dos bisbilhoteiros fisicamente.
+Mas se retirar o HD do computador por exemplo, e se conectar a outro o mesmo 
+terá acesso a tudo.
+</p>
+
+<p>
+Para garantir ainda mais a sua segurança, sem dúvida o ideal seria 
+criptografar todo seu HD, todas partições sem excessões.
+</p>
+
+<p>
+E para quebrar uma boa criptografia meu amigo, nem o FBI.
+</p>
+
+</body>
+</html>

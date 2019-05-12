@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<!--
+
+MANTENHA OS CRÉDITOS FI DA MÃE!
+SLACKJEFF RULES.
+
+-->
+<html lang="pt-br">
+    <head>
+        <title>Compilação Slackbuilds</title>
+        <meta charset="utf-8">
+        <meta name="author" content="Jefferson Rocha"/>
+        <meta name="email" content="lrcjefferson@gmail.com"/>
+        <meta name="description" content="Site pessoal do Slackjeff"/>
+        <meta http-equiv="content-language" content="pt-br"/>
+        <meta name="copyright" content="© 2018 Jefferson Rocha"/>
+        <meta name="rating" content="general"/>   
+        <link rel="shortcut icon" type="image/png" href="../img/photo.png"/>
+        <style>
+        	body{color: #0a0a0a;margin: 1em auto;max-width: 44em; font-size: 1.2em;}
+        	.mark{background-color: #313131; color: white; padding: 0.5%}
+        </style>
+</head>
+<body>
+<h1>Como fazer a troca do Kernel Huge para o Generic?</h1>
+<b>Autor: Jefferson 'Slackjeff' Rocha</b><br>
+<b>Criação: 20/03/2019</b><br>
+<b>Atualização: </b><br>
+
+<h2 class="mark">O que esperar?</h2>
+<p>
+No final desta receita o usuário conseguirá fazer a troca do Kernel
+huge para o Kernel Generic no Slackware, e aproveitar os seus beneficios.
+</p>
+
+<p>
+Você deve estar se perguntando qual o benefício de realizar está troca.
+O beneficio da troca do Huge para o Generic são:
+</p>
+
+<ul>
+	<li>Maior fluidez e boot mais rápido, isso devido ao Generic carregar somente 
+    os módulos que sua máquina necessita.</li>
+	<li>Os módulos não são embutidos, assim dando uma flexibilidade melhor.</li>
+</ul>
+
+<p>
+Então para que server o Kernel Huge? Simples, por ter um suporte gigante a muitos 
+drivers ele é ideal para usar na instalação do Sistema. Permitindo assim atingir um 
+número maior de máquinas.<br>
+Após a instalação o Huge não é mais necessário, e é por isso que devemos fazer a 
+troca.
+</p>
+
+
+<h2 class="mark">Iniciando a Receita</h2>
+
+<p>
+Logue-se como root, todo processo será feito pelo super-usuário, após
+isso vamos executar o comando 'mkinitrd_command_generator.sh' que está
+presente em /usr/share/mkinitrd
+</p>
+
+<p>
+<b># /usr/share/mkinitrd/mkinitrd_command_generator.sh</b>
+</p>
+
+<p>
+A saída será do comando mkinitrd com os módulos necessários para o
+funcionamento da sua máquina. Exemplo:
+</p>
+
+<pre>
+# /usr/share/mkinitrd/mkinitrd_command_generator.sh
+#
+# mkinitrd_command_generator.sh revision 1.45
+#
+# This script will now make a recommendation about the command to use
+# in case you require an initrd image to boot a kernel that does not
+# have support for your storage or root filesystem built in
+# (such as the Slackware 'generic' kernels').
+# A suitable 'mkinitrd' command will be:
+
+mkinitrd -c -k 4.4.172 -f ext4 -r /dev/sda1 -m 
+usb-storage:ehci-hcd:ehci-pci:xhci-pci:ohci-pci:xhci-hcd:uhci-hcd:hid:  \  
+usbhid:i2c-hid:hid_generic:hid-cherry:hid-logitech:hid-logitech-dj:     \
+hid-logitech-hidpp:hid-lenovo:hid-microsoft:hid_multitouch:jbd2:mbcache:\
+ext4 -u -o /boot/initrd.gz
+</pre>
+
+<p>
+Copie toda a linha onde começa com o comando 'mkinitrd -c -k ....' e logo
+após isso cole em seu terminal. O comando mkinitrd será executado e terá 
+uma saída nesse formato:
+</p>
+
+<p>
+<b># mkinitrd -c -k 4.4.172 -f ext4 -r /dev/sda1 -m 
+usb-storage:ehci-hcd:ehci-pci:xhci-pci:ohci-pci:xhci-hcd:uhci-hcd:hid:\
+usbhid:i2c-hid:hid_generic:hid-cherry:hid-logitech:hid-logitech-dj:\
+hid-logitech-hidpp:hid-lenovo:hid-microsoft:hid_multitouch:jbd2:mbcache:\
+ext4 -u -o /boot/initrd.gz</b>
+</p>
+
+<pre>
+OK: /lib/modules/4.4.172/kernel/drivers/usb/storage/usb-storage.ko added.
+OK: /lib/modules/4.4.172/kernel/drivers/usb/host/ehci-hcd.ko added.
+OK: /lib/modules/4.4.172/kernel/drivers/usb/host/ehci-hcd.ko added.
+OK: /lib/modules/4.4.172/kernel/drivers/usb/host/ehci-pci.ko added.
+...
+38432 blocks
+/boot/initrd.gz created.
+Be sure to run lilo again if you use it.
+</pre>
+
+<p>
+Após isso vamos inserir no lilo as informações necessárias para o Kernel
+Generic conseguir ser carregado, você pode fazer isso manual ou pode
+simplesmente rodar o comando:
+'/usr/share/mkinitrd/mkinitrd_command_generator.sh' com a opção -l em 
+seguida passar o caminho completo da localização do vmlinuz-generic.
+</p>
+
+<p>
+<b># /usr/share/mkinitrd/mkinitrd_command_generator.sh -l \
+/boot/vmlinuz-generic-4.4.172</b>
+</p>
+
+<pre>
+image = /boot/vmlinuz-generic-4.4.172
+  initrd = /boot/initrd.gz
+  root = /dev/sda1
+  label = 4.4.172
+  read-only
+# Linux bootable partition config ends
+</pre>
+
+<p>
+Agora vamos adicionar as informações no lilo.conf presente em:
+/etc/lilo.conf
+Adicione as informações na última linha lilo.conf
+É de extrema importância vocẽ NÃO apagar a chamada do Kernel Huge, deixe
+sempre ele em caso de trágedia com seu sistema. Isso para um possível
+resgate.
+</p>
+
+<p>
+Mude o 'label' para um nome melhor, como KGeneric ou algo do tipo, este
+Label é o responsável por aparecer na tela do Lilo.
+Com um nome melhor fica mais fácil você o identificar.
+Após ter feito todo o processo execute o lilo para as novas configurações
+serem carregadas:
+</p>
+
+<p>
+<b># lilo</b>
+</p>
+
+<pre>
+Warning: LBA32 addressing assumed
+Added Linux  *
+Added Generic  +
+One warning was issued.
+</pre>
+
+<p>
+Pronto! Agora é só reiniciar sua máquina e Selecionar o Kernel Generic.
+</p>
+
+</body>
+</html>

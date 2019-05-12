@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<!--
+
+MANTENHA OS CRÉDITOS FI DA MÃE!
+SLACKJEFF RULES.
+
+-->
+<html lang="pt-br">
+    <head>
+        <title>Variáveis em bash</title>
+        <meta charset="utf-8">
+        <meta name="author" content="Jefferson Rocha"/>
+        <meta name="email" content="lrcjefferson@gmail.com"/>
+        <meta name="description" content="Site pessoal do Slackjeff"/>
+        <meta http-equiv="content-language" content="pt-br"/>
+        <meta name="copyright" content="© 2018 Jefferson Rocha"/>
+        <meta name="rating" content="general"/>   
+        <link rel="shortcut icon" type="image/png" href="../img/photo.png"/>
+        <style>
+        	body{color: #0a0a0a;margin: 1em auto;max-width: 44em; font-size: 1.2em;}
+        	.mark{background-color: #313131; color: white; padding: 0.5%}
+        </style>
+</head>
+<body>
+<h1>Variáveis em bash</h1>
+<b>Autor: Jefferson 'Slackjeff' Rocha</b><br>
+<b>Atualização: 07/07/2018</b><br>
+
+<p>
+Entenda o conceito de uma variável e como fazer todo processo para criar a sua
+própria.
+</p>
+
+
+<h2 class="mark">O que é uma variável?</h2>
+
+<p>
+Uma variável como o próprio nome já diz serve para armazenar conteúdos variados
+em um local/espaço da memória, ao invés de utilizarmos números para fazer a sua
+chamada, usamos tags/nomes! Assim fica mais fácil fazer a chamada não é?
+Variáveis em shell podem receber qualquer conteúdo! desde uma simples 
+string/texto, números, status de saída de um comando e retorno da saída.
+</p>
+
+
+<h2 class="mark">Quando devemos usar uma variável?</h2>
+
+<p>
+Em qualquer momento! variáveis são legais de se trabalhar, vamos supor como
+exemplo eu precisasse fazer a chamada de um diretório específico 4 vezes!
+Seria viável eu ficar digitando sempre esse diretório manual? não seria falho
+se em um futuro eu resolvesse alterar o diretório em si? E se eu esquecer de
+alterar algum caminho é falha na certa! Para isto eu uso uma variável para
+me ajudar!
+</p>
+
+<pre>
+# Declaração
+DIRETORIO="/home/slackjeff/diretorio_local"
+
+# Se diretório não existe, crie.
+if [ ! -d "$DIRETORIO" ]; then
+   mkdir "$DIRETORIO"
+fi
+cd "$DIRETORIO"
+echo "Estou no diretório '$DIRETORIO'"
+</pre>
+
+<p>
+Perceba que eu fiz 4 vezes a mesma chamada do diretório! ficou mais viável usar
+uma variável para isto, assim se precisar eu preciso apenas trocar o conteúdo
+da variável não precisando mexer em mais nada no código.
+O mesmo vale para uma mensagem por exemplo onde é repetitiva ou até mesmo
+comprida!
+Para este exemplo vou usar o dialog.
+</p>
+
+<pre>
+# HEREDOCUMENT
+texto=$(
+cat << FECHA
+    OI seja muito bem vindo ao meu site cara!
+    Aqui você vai encontrar tudo menos dinheiro.
+FECHA
+)
+</pre> 
+
+<pre>
+# Imprimindo na telinha!
+dialog --msgbox "$texto" 0 0
+</pre>
+
+<h2 class="mark">Tipos de variáveis</h2>
+<p>
+Em shell não existe variáveis do tipo (char, int, float, double). Aqui é tudo
+string sem dó sem piedade! nem se preocupe... Só programe.
+</p>
+
+
+<h2 class="mark">Declarando uma variável</h2>
+
+<p>
+Em shell não precisamos declarar variáveis! mas se acostume com o jeito da cha-
+mada :D
+A ordem para declarar um variável é: <nomeDaVariavel> <RECEBE> <valor>.
+Nota que o nome da varíavel não pode conter nenhum caractere especial como:
+'@-|&*#$\/' entre outros, não podem também começar com números e ter espaços...
+Caso o nome da sua variável conter espaços substitua por _ 'underline', sim!
+underline pode.
+Não use - 'traço' que não vai rolar, ele é um caractere especial.
+Após declarar um BOM nome de variável você deve inserir o sinal de '=' e o 
+valor/conteúdo. Vamos para alguns exemplos:
+</p>
+
+<pre>
+<b>Declarações CORRETAS</b>
+
+tamanho_calca_42="Mentira nem uso 42"
+nome="Jefferson"
+_Esta_e_minha_rua="Rua pedro dos santos"
+NumeroDaMinhaCasa="102"
+CPF_E_RG="CPF: xxxxxxxx-xxxxxx.xx RG: y.yyy.yyyy"
+
+<b>Declarações ERRADAS</b>
+
+echo="Jeffa" <b>Funciona mais é reservado.</b>
+ls="Deu" <b>Funciona mais é reservado</b>
+*Nom&="Paula"
+1nome="Fernanda"
+rua-do-cabra="Pedrino nicolau"
+linguagem=favorita="Shell"
+MEU PINTINHO AMARELINHO="Vish isso não vai dar certo"
+</pre>
+
+<p>
+Tome cuidado, se você é iniciante e fazer a declaração errada não vai worka. 
+O shell vai reclamar, sim! ele é um cara bem zangado com más declarações.
+Então se liga, sem caracteres especiais, númeração de inicio e espaços.
+</p>
+
+</body>
+</html>

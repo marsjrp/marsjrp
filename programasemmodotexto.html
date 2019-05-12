@@ -1,0 +1,241 @@
+
+<!DOCTYPE html>
+<!--
+
+MANTENHA OS CRÉDITOS FI DA MÃE!
+SLACKJEFF RULES.
+
+-->
+<html lang="pt-br">
+    <head>
+        <title>Programas em Modo Texto (on Shell)</title>
+        <meta charset="utf-8">
+        <meta name="author" content="Jefferson Rocha"/>
+        <meta name="email" content="lrcjefferson@gmail.com"/>
+        <meta name="description" content="Site pessoal do Slackjeff"/>
+        <meta http-equiv="content-language" content="pt-br"/>
+        <meta name="copyright" content="© 2018 Jefferson Rocha"/>
+        <meta name="rating" content="general"/>   
+        <link rel="shortcut icon" type="image/png" href="../img/photo.png"/>
+        <style>
+        	body{color: #0a0a0a;margin: 1em auto;max-width: 44em; font-size: 1.2em;}
+        	.mark{background-color: #313131; color: white; padding: 0.5%}
+        </style>
+</head>
+<body>
+<h1>Programas em Modo Texto (on Shell)</h1>
+<b>Autor: Jefferson 'Slackjeff' Rocha</b><br>
+<b>Atualização: 21/08/2017</b><br>
+
+
+<h2 class="mark">INÍCIO</h2>
+ 
+<p>
+O por que de ter uma experiência no Shell puro? 
+Isso é masoquismo e é verdade, nossos antepassados viviam assim e muito bem, 
+rendiam mais. Para quem gosta de ler texto ou escrever, nada melhor que usar o 
+Shell e com algum editor como Nano, Vim, Vi para focar somente no texto, ou 
+escrever. 
+</p>
+
+<p>
+Você sabia que o grande George R. R. Martin usa o DOS puro, para escrever livros? É 
+inacreditável isto, com toda tecnologia ele usa um computador de 1980. Tudo que ele 
+fala é totalmente construtivo e vale pensar: 
+</p>
+
+<p>
+"Uso um computador de 1980, sem internet, assim não tenho problemas com vírus e 
+foco somente na escrita".
+Sem mais prolongar, vamos começar a nossa lista. Não vou ir muito a fundo sobre os 
+mesmos, será somente um por categoria, os que mais gostos. 
+</p>
+
+<h2 class="mark">EDITOR DE TEXTO: NANO</h2>
+
+<p>
+Claro, texto por texto é tudo igual, você está no Shell e só vai ver textos, porém, 
+um editor que facilita um pouco nossas vidas é bem vindo. Por isso, o Nano com suas 
+teclas fáceis é o melhor.
+</p>
+
+<h2 class="mark">CLIENTE E-MAIL: MUTT</h2>
+
+<p>
+Existe uma grande variedade nesta categoria e eu tenho um preferido simples e 
+fácil, é o cãozinho feliz, ele se chama Mutt. 
+</p>
+
+<p>
+Ele já vem instalado em várias distribuições e está na ativa desde 1995. No começo, 
+achei um pouco complicado de configurar, mas depois que se tem o "muttrc" 
+configurado, só vai. Eu estou disponibilizando aqui meu "muttrc" todo certo, baixe, 
+adicione as suas configurações e adicione em "~/.muttrc".
+</p>
+
+
+<h2 class="mark">BROWSER: W3M</h2>
+
+<p>
+É a primeira vez que gosto realmente de um navegador modo texto. Links e Lynx tem 
+seus bugs, os quais odeio, uma é a falta de praticidade de usar. Parece que o 
+teclado não te obedece. É por isso que lhes apresento o W3M, lançado também em 
+1995. Para usar é fácil, h para navegar, q para sair, e direcional para navegar 
+entre as páginas.
+</p>
+
+
+<h2 class="mark">GERENCIADOR DE ARQUIVOS: MC</h2>
+
+<p>
+Se você procura praticidade em gerenciar suas pastas e arquivos, recomendo o MC. 
+Caso, por alguma eventualidade da vida, você venha usar o terminal, você pode 
+também usar o mouse, o que deixa tudo mais fácil, sem falar que ele é extremamente 
+leve, assim como todos os outros programas acima mencionados.<br>
+Ocupar alguns Kbytes na RAM, é para poucos.
+</p>
+
+
+<h2 class="mark">PLAYER DE MÚSICA: CMUS</h2>
+
+<p>
+Carinha, depois de algum tempo para me acostumar, eu resolvi cair de cabeça no 
+cmus, uma que se você por lado a lado do Audacious (um player gráfico), mostra que 
+um player em texto puro também é muito completo e funcional. 
+</p>
+
+<p>
+Para navegar entre as pastas, utilize as teclas (1,2,3,4,5,6,7). Leia também o 
+manual e o modo de uso. Vale o teste? Não! Vale a troca total!
+</p>
+
+<h2 class="mark">SCREENSHOT: FBCAT</h2>
+
+<p>
+Você está falando sério, Jefferson? Screenshot no Shell? 
+</p>
+
+<p>
+Pois é, existe sim. Porém, você precisa converter o arquivo que originalmente será 
+gerado como ".ppm". Ok, então como funciona? Simplesmente, você irá utilizar como 
+no exemplo abaixo: 
+</p>
+
+<pre>
+$ <b>fbcat > nomedaimagem.ppm </b>
+</pre>
+
+<p>
+O arquivo será gerado na pasta onde você se encontra, no caso se estarmos na Área 
+de trabalho, o arquivo será gerado lá. A próxima etapa é converter o arquivo em 
+".jpg" ou ".png", para isso, você vai precisar de outro arquivo que normalmente não 
+vem disponibilizado nas distribuições, mas que está no repositório. 
+</p>
+
+<p>
+Baixe o amigo Imagemagick e agora siga o passo a passo para converter. 
+</p>
+
+<pre>
+$ <b>convert nomedaimagem.ppm nomedaimage.jpg</b>
+</pre>
+
+<p>
+Só isso? Sim... Fácil, não é? Agora você pode tirar screenschots no Shell sem se 
+preocupar.
+</p>
+
+<h2 class="mark">LER PDF: XPDF-UTILS / PDSHELL</h2>
+
+<p>
+Você pode ler seus importantes PDFs também, olha que bacana, eu que trabalho com 
+servidores gosto muito, principalmente quando preciso passar um tempo. Você precisa 
+baixar o xpdf-utils e dar permissão para um script que eu criei que se chama 
+pdshell, não se preocupe que é fácil. 
+</p>
+
+<p>
+Primeiramente, instale o xpdf-utils, logo após baixe o script: pdshell<br>
+Após baixar, copie para /usr/bin e dê a permissão: 
+</p>
+
+<pre>
+# <b>chmod +x /usr/bin/pdshell</b>
+</pre>
+
+<p>
+Feito isto, é só encontrar onde está o PDF, em meu caso vai estar em Downloads: 
+</p>
+
+<pre>
+$ <b>pdshell /home/slackjeff/desktop/programando-em-shell.pdf</b>
+</pre>
+
+<p>
+Ou, simplesmente, se está na pasta é só rodar: 
+</p>
+
+<pre>
+$ <b>pdshell programando-em-shell.pdf</b>
+</pre>
+
+<h2 class="mark">IRQ: IRSSI</h2>
+
+<p>
+IRQ foi o melhor bate papo dos anos 90~2000. Para quem tá chegando agora, vale a 
+pena conhecer. E para rodar nosso incrível IRQ em modo texto, temos o Irssi que é 
+muito completo e fácil de usar. 
+</p>
+
+<p>
+Existem vários, porém, como dito no inicio deste artigo, eu estou considerando os 
+melhores para mim e os que mais uso/usei. Basicamente, os comandos começam com a / 
+(barra) na frente, exemplo para entrar em um servidor: 
+</p>
+
+<pre>
+<b>/connect servidor</b>
+</pre>
+
+<p>Exemplo xulento Para entrar no canal do Slackware:</p>
+
+<pre>
+/connect irc.freenode.org
+/j ##slackware
+</pre>
+
+
+<h2 class="mark">GERENCIADOR DE JANELA: DVTM</h2>
+<p>
+O melhor por último, e o fim da maratona. Não tem gerenciador de janela em Shell? 
+Tem certeza? Apresento-lhes o DVTM, com ele você pode abrir várias divisões, 
+funciona no estilo Tilling. Normalmente, está em todos repositórios das 
+distribuições, baixe e teste. Eu adoro usar ele, melhor que rodar uma aplicação por 
+vez, ou usar o TTY para ir fazendo outras coisas. 
+</p>
+
+<pre>
+Comandos básicos:
+Ctrl + G & C → para abrir uma nova divisão.
+Ctrl + D → para fechar a divisão.
+</pre>
+
+<p>
+<b>CONCLUSÃO</b>
+Se você quer ter uma experiência nova, se arrisque. Faça uma experiência com você 
+mesmo, você vai estar bem servido de programas. 
+</p>
+
+<p>
+Lembrando que aqui fiz um simples listas, tudo que você faz com um ambiente gráfico 
+upado, você faz por trás dos panos também. 
+</p>
+
+<p>
+Bom, e porque eu faria uma experiencia desta? Se você é novato "principalmente" e 
+deseja um dia trabalhar com servidores, vá se acostumando. E por que não da melhor 
+maneira possível? 
+</p>
+
+</body>
+</html>

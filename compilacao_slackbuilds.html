@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<!--
+
+MANTENHA OS CRÉDITOS FI DA MÃE!
+SLACKJEFF RULES.
+
+-->
+<html lang="pt-br">
+    <head>
+        <title>Compilação Slackbuilds</title>
+        <meta charset="utf-8">
+        <meta name="author" content="Jefferson Rocha"/>
+        <meta name="email" content="lrcjefferson@gmail.com"/>
+        <meta name="description" content="Site pessoal do Slackjeff"/>
+        <meta name="keywords" content="shell script, slackware, vídeos, linux, how-to, blog, xiita slackware, linux raiz"/>
+        <meta http-equiv="content-language" content="pt-br"/>
+        <meta name="copyright" content="© 2018 Jefferson Rocha"/>
+        <meta name="rating" content="general"/>   
+        <link rel="shortcut icon" type="image/png" href="../img/photo.png"/>
+        <style>
+        	body{color: #0a0a0a;margin: 1em auto;max-width: 44em; font-size: 1.2em;}
+        	.mark{background-color: #313131; color: white; padding: 0.5%}
+        </style>
+</head>
+<body>
+<h1>Compilação Utilizando o Slackbuilds</h1>
+<b>Autor: Jefferson 'Slackjeff' Rocha</b><br>
+<b>Atualização: 12/04/2018</b><br>
+
+<h2 class="mark">0.1 Por que Slackbuilds?</h2>
+
+
+<p>Sabemos que que compilação é algo que precisamos estudar, não é fácil tirar
+a melhor configuração de que um programa pode oferecer. Como dito precisamos
+estudar as melhores formas, e para isso que a maioria dos desenvolvedores botam
+os arquivos "Readme" e "Install". Nestes arquivos é mostrado todo o processo
+padrão e todos as configurações disponíveis...<br>
+Mas o que acontece quando conseguimos tirar um bom aproveito daquele X programa
+mas não guardamos os nossos pacotes? ou até mesmo esquecemos que ele existe...
+E quando você precisa, CADÊ</p>
+
+<p>O projeto Slackbuilds veio para tornar este processo menos árduo, nascido em
+2006 por um grupo de entusiastas da distribuição Slackware Linux.
+O Slackbuilds em si nada mais é que um programa feito bourne shell 'sh', que faz
+todo o processo ou seja, todo o passo a passo que o programa precisa para ser
+compilado com sua melhor configuração.<br>
+Lembrando que nem sempre o que o programador fez naquele determinado
+Slackbuilds é totalmente viável para você. Por isso é importante editar caso haja
+necessidade!<br>
+Normalmente os Scripts Slacbuilds seguem um padrão, um template para tornar as
+coisas mais organizadas, então se você já sabe programar não vai ter muito
+problema para criar seu próprio Slackbuild, quem sabe vocẽ ajuda na comunidade!
+Vamos abordar no próximo tópico sobre.</p>
+
+
+
+ <h2 class="mark"> 0.2 Como fazer parte do projeto Slackbuilds?</h2>
+
+
+<p>Para ajudar o projeto é fácil, como a principal base você precisa saber
+programar em Shell com o dialeto Bourne Shell 'sh'. Mas por que os scripts são
+feitos em 'sh'? simples, para se tornar o mais portavel possivel dentro dos
+mais váriaveis Shells, não é por que você utiliza o Slackware que você deverá
+ficar preso ao Shell Bash não é!?</p>
+
+<p>Para fazer parte e ser um mantenedor você pode começar lendo o link abaixo:<br>
+https://slackbuilds.org/guidelines/</p>
+
+<p>Aqui tem alguns template de um programa que você pode estudar:<br>
+https://slackbuilds.org/templates/</p>
+
+<p>Caso você tenha um programa criado em Shell que será muito útil para a 
+comunidade você pode ter uma base com o programa 'slack-scripts':<br>
+https://slackbuilds.org/repository/14.2/system/slack-scripts</p>
+
+<p>Bons estudos!</p>
+
+
+<h2 class="mark">1.0 Preparando o ambiente.</h2>
+
+
+<p>Antes de mais nada precisamos preparar nosso ambiente para começar a compilar
+correto? não queremos que os pacotes do Slackbuild 'SBO' fiquem espalhados por
+ai, eu mesmo cansei de sujar meu sistema deixando os fontes no diretorio
+Download.<br>
+Isso é um saco, deixar tudo espalhado #euein!, vamos então criar uma pasta
+somente para isto, vamos chamar de slackbuilds-src, sinta-se a vontade para
+escolher outro nome.</p>
+
+
+<p>$ <b>mkdir -v</b> $HOME/slackbuilds-src<br>
+mkdir: foi criado o diretório '/home/slackjeff/slackbuilds-src'</p>
+
+
+<p>Será dentro deste diretório que será despejado todos os nossos fontes.
+Já adiantando!!<br>
+Normalmente os pacotes são gerados no diretório /tmp, podemos alterar esta
+pasta no próprio script e bota-la em uma pasta mais apropriada, dentro do 
+próprio script .Slackbuild existe uma váriavel chamada 'OUTPUT' nela você
+pode alterar para outro diretorio, mas lembre-se que terá que fazer este<br>
+processo sempre! Procure pela linha, e troque /tmp pelo diretorio preferido.</p>
+
+
+<p>OUTPUT=${OUTPUT:-/tmp}</p>
+
+
+<p>Trocado:</p>
+
+<p>OUTPUT=${OUTPUT:-/tmp/slackbuilds-pkg}</p>
+
+
+<code><b>***NOTA</b>
+Está expansão de váriavel ${VAR:conteúdo significa o seguinte.
+Se caso a váriavel não estiver definida, ou vazia retorna o conteudo que 
+você passar.
+</code> 
+
+
+<h2 class="mark">1.1 Vamos começar a brincadeira.</h2>
+
+
+<p>Feito o processo acima, vamos começar realmente a nossa brincadeira, antes de
+tudo, necessitamos entrar no site oficial do Slackbuilds para procurar o nosso
+programa.<br>
+https://slackbuilds.org/</p>
+
+<p>Entrado no site oficial você perceberá que há uma tela de procura com o nome de
+Slackbuilds Search, ao lado uma caixa dê preenchimento e logo ao lado um menu
+suspenso indicando as versões.<br>
+Nesta data que está sendo escrito este HOW-TO a versão mais novo do Slackware é
+14.2.
+Para nosso How-to vamos fazer a brincadeira com o pacote neofetch, digite
+no campo de busca neofetch escolha a versão desejada e clique em >> para fazer
+a busca.<br>
+Ótimo o pacote foi encontrado com sucesso, note que há bastante informações...
+Vamos explicar detalhadamente!<br>
+No inicio há a versão escolhida, Categoria, Nome do pacote e versão e logo
+abaixo há as informações deste pacote.</p>
+
+
+<p>14.2 > Desktop > neofetch (3.4.0)</p>
+
+<p>Neofetch is a CLI system information tool written in BASH. Neofetch
+displays information about your system next to an image, your OS logo,
+or any ascii file of your choice. The main purpose of neofetch is to be
+used in screenshots to show other users what OS/Distro you're running,
+what Theme/Icons you're using and etc.
+To see any optional dependencies that you might need, you can view it in
+https://github.com/dylanaraps/neofetch/wiki/Dependencies</p>
+
+
+<p>Logo abaixo há o mantenedor do pacote, se você clicar em cima do nome
+irá abrir o e-mail para contato, para report!
+Abaixo do mantenedor há as palavras chaves do pacote e Changelog.</p>
+
+
+<p>Maintained by: Muhammad Herdiansyah
+Keywords: neofetch,screenfetch,screen,info,script,logo,screenshot
+ChangeLog: neofetch</p>
+
+
+<p>No centro da tela há o que nos importa! Site oficial do pacote, fonte, e o 
+script do Slackbuild.</p>
+
+<p>
+	Homepage:<br>
+	https://github.com/dylanaraps/neofetch<br>
+<br>
+	Source Downloads:<br>
+	neofetch-3.4.0.tar.gz (a3ea7a96021001bf8a8ba8ea935198ae)<br>
+<br>
+	Download SlackBuild:<br>
+	neofetch.tar.gz<br>
+	neofetch.tar.gz.asc (FAQ)<br>
+<br>
+	(the SlackBuild does not include the source)
+</p>
+
+
+<p>E no canto inferior ao lado esquerdo temos os arquivos individuais do pacote.</p>
+
+
+<p>Individual Files:<br>
+<li>README</li>
+<li>neofetch.SlackBuild</li>
+<li>neofetch.info</li>
+<li>slack-desc</li>
+</p>
+
+<p>Vamos baixar os arquivos que necessitamos, no caso são eles:
+Source Downloads que é o fonte do programa e Download Slackbuild.<br>
+Copiamos o link do neofetch-3.4.0.tar.gz e o Script neofetch.tar.gz
+Abrimos nosso terminal e navegamos até nosso diretório criado:</p>
+
+
+<p>$ cd $HOME/slackbuilds-src</p>
+
+
+<p>Após isto vamos rodar o wget para fazer o Download dentro da pasta.</p>
+
+
+<p>$ <b>wget</b> https://github.com/dylanaraps/neofetch/archive/3.4.0/neofetch-3.4.0.tar.gz \<br>
+https://slackbuilds.org/slackbuilds/14.2/desktop/neofetch.tar.gz</p>
+
+
+<p>Se tudo ocorreu bem seus pacotes estarão livres leves e soltos em seu diretorio!</p>
+
+
+<p>$ <b>ls</b><br>
+neofetch-3.4.0.tar.gz  neofetch.tar.gz</p>
+
+
+<p>Vamos começar por descompactar o arquivo neofetch.tar.gz, nele contem os 
+arquivos Slackbuilds.</p>
+
+
+<p>$ <b>tar -xvf</b> neofetch.tar.gz<br>
+neofetch/<br>
+neofetch/slack-desc<br>
+neofetch/README<br>
+neofetch/neofetch.info<br>
+neofetch/neofetch.SlackBuild<br>
+</p>
+
+<p>Note que uma pasta chamada neofetch foi criada, vamos enviar o nosso source
+sem descompactalo para dentro do diretorio neofetch em seguida vamos entrar
+dentro do diretorio.</p>
+
+
+<p>$ <b>mv</b> neofetch-3.4.0.tar.gz neofetch && cd neofetch</p>
+
+
+<p>Necessitamos do Root neste momento! logue-se e, seguida execute o script do
+.Slackbuild</p>
+
+<p>$ <b>su</b></p>
+
+
+<p># ./neofetch.SlackBuild</p>
+
+
+<p>Como o neofetch é um script é feito o procedimento em menos de 3 segundos.
+Note que o pacote foi criado em tmp:<br>
+Slackware package /tmp/neofetch-3.4.0-noarch-1_SBo.tgz created.
+Utilize o installpkg para instalar caso você não tenha este pacote ainda no
+sistema, caso já tenha uma versão antiga e está é uma versão mais nova use
+o upgradepkg com a opção --install-new.<br>
+Com a opção --install-new caso o pacote não tenha no sistema o pacote é instalado
+se o pacote que você está instalando seja da mesma versão ele aborta e não faz
+nada, e caso já exista um versão antiga e o pacote que você está instalando seja
+uma versão mais atual ele irá atualizar!<br>
+Em meu caso eu não tenho ainda o neofetch.
+</p>
+
+
+<p># <b>upgradepkg --installnew</b> /tmp/neofetch-3.4.0-noarch-1_SBo.tgz</p>
+
+
+<p>Se tudo ocorreu bem, seu pacote foi instalado com sucesso!
+Agora é só aproveitar!</p>
+
+
+
+<h2 class="mark">1.1.1 Uma nota mais que importante</h2>
+
+
+<p>Caso o pacote/programa que vocẽ escolheu tenha pacotes necessários/dependencias
+você necessitará primeiramente fazer todo o processo com o pacote necessário
+para depois compilar o pacote base em si.<br>
+Por exemplo o pacote ssr 'simple screen recorder', necessita por padrão do
+pacote ffmpeg, você pode encontrar logo no cabeçalho, vamos conferir:<br>
+</p>
+
+
+<p>14.2 > Desktop > ssr (0.3.10)</p>
+
+
+<p>SimpleScreenRecorder is a feature-rich screen recorder for Linux that supports
+X11 and OpenGL.<br>
+For JACK audio support (requires jack-audio-connection-kit) set JACK=TRUE.<br>
+To build with Qt5 (requires qt5) set QT5=TRUE.<br>
+This requires: ffmpeg<br>
+Maintained by: Benjamin Trigona-Harany<br>
+Keywords: ssr,simplescreenrecorder,screencast<br>
+ChangeLog: ssr<br>
+</p>
+
+<p>Note que há uma linha chamada 'This requires' e logo em seguida o ffmpeg.<br>
+Então o primeiro passo seria compilar o pacote ffmpeg para depois compilar
+o ssr em si.</p>
+
+<p>Bom divertimento :)</p>
+
+<br>
+
+<h3>Deixe seu comentário!</h3>
+
+<br>
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://slackjeff-com-br.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script id="dsq-count-scr" src="//slackjeff-com-br.disqus.com/count.js" async></script>
+</body>
+</html>

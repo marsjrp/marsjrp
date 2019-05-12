@@ -1,0 +1,437 @@
+
+<!DOCTYPE html>
+<!--
+
+MANTENHA OS CRÉDITOS FI DA MÃE!
+SLACKJEFF RULES.
+
+-->
+<html lang="pt-br">
+    <head>
+        <title>Empacotamento Para Slackware</title>
+        <meta charset="utf-8">
+        <meta name="author" content="Jefferson Rocha"/>
+        <meta name="email" content="lrcjefferson@gmail.com"/>
+        <meta name="description" content="Site pessoal do Slackjeff"/>
+        <meta http-equiv="content-language" content="pt-br"/>
+        <meta name="copyright" content="© 2018 Jefferson Rocha"/>
+        <meta name="rating" content="general"/>   
+        <link rel="shortcut icon" type="image/png" href="../img/photo.png"/>
+        <style>
+        	body{color: #0a0a0a;margin: 1em auto;max-width: 44em; font-size: 1.2em;}
+        	.mark{background-color: #313131; color: white; padding: 0.5%}
+        </style>
+</head>
+<body>
+<h1>Empacotamento Para Slackware</h1>
+<b>Autor: Jefferson 'Slackjeff' Rocha</b><br>
+<b>Atualização: 18/02/2018</b><br>
+
+<h2 class="mark">Ajustes</h2>
+
+<p>
+Antes começar a compilação é muito importante criarmos um diretório específico 
+somente para isto. Eu sempre utilizo dois diretórios onde faço todo os processos.
+o primeiro diretório fica dentro do meu home, e se chama 'src';
+o segundo fica dentro dos temporários ou para os mais chegados 'tmp', uma pasta 
+chamada 'build', lá dentro é onde normalmente acontece os meus empacotamentos 
+manuais!
+</p>
+
+<p>
+Eu tenho uma variável global chamada 'src' e outra 'compi', então para não precisar 
+sempre ficar chamando todo diretório '~/src' e '/tmp/build' eu somente chamo as 
+variáveis '$src' e '$compi', mais prático não é? 
+</p>
+
+<p>
+Então o primeiro passo é criar estes diretórios caso você não o tenha, se preferir 
+chamá-los de outro nome fique a vontade. 
+</p>
+
+<p>
+Primeiramente vamos criar os diretórios em sua '/home/usuario' e '/tmp'. 
+</p>
+
+<pre>
+$ <b>mkdir /tmp/build</b>
+$ <b>mkdir ~/src</b>
+</pre>
+
+<p>
+Após isto vamos criar as variáveis e para finalizar vamos exportar elas para ficar 
+disponível em qualquer terminal, ou console.<br>
+Criando a variável 'src' e 'compi': 
+</p>
+
+<pre>
+$ <b>compi="/tmp/build"</b>
+$ <b>src="/home/slackjeff/src"</b>
+</pre>
+
+<p>
+Agora vamos exportá-las: 
+</p>
+
+<pre>
+$ <b>export $compi</b>
+$ <b>export $src</b>
+</pre>
+
+<p>
+Caso deseje sempre carregar estas variáveis como uma variável ambiente, faça o 
+seguinte. Abra o /etc/profile com seu editor favorito e as declare. 
+</p>
+
+<p>
+É interessante também fazer um comentário para ficar mais atrativo para depois você 
+não ficar perdido! Acontece. 
+</p>
+
+<pre>
+# <b>nano /etc/profile</b>
+</pre>
+
+<p>
+Na última linha insira o comentário, lembre que um comentário deve começar com '#' 
+tralha, e na linha debaixo exporte e declarar a variável 'compi' ou o nome da sua 
+preferência. 
+</p>
+
+<pre>
+# Variável para meu build
+<b>export src="/home/slackjeff/src"</b>
+<b>export compi="/tmp/build"</b>
+</pre>
+
+<p>
+Pronto, na próxima inicialização do sistema esta variável se tornará ambiente e 
+sempre será carregada no boot. 
+</p>
+
+<p>
+Caso queira deixar esta variável disponível apenas para o seu usuário, faça o mesmo 
+procedimento no '.bashrc', que está localizado em seu 'home'. 
+</p>
+
+<p>
+Caso opte pelo .bashrc não esqueça de remover no /etc/profile. 
+</p>
+
+<p>
+Ótimo, nosso próximo passo agora é desempacotar o nosso fonte dentro do nosso 
+diretório src, que está localizado em nossa home. 
+</p>
+
+<p>
+Então vamos brincar, vamos desempacotar já enviando para '/home/slackjeff/src' o 
+meu ambiente de compilação, lembrando que não precisa de root, não utilize ele em 
+vão! 
+</p>
+
+<p>
+Neste exemplo irei usar o fonte "fictício" do leafpad. 
+</p>
+
+<pre>
+$ <b>cd ~/Downloads && tar -xvf leafpad.tar.gz -C "$src" && cd "$src" && ls</b>
+</pre>
+
+<p>
+<b>NOTA:</b> eu utilizo sempre aspas duplas "", para não ter problema da variável 
+expandir 
+e estar nula por exemplo, não vai ter problemas neste caso, mas é sempre 
+interessante você usar e se acostumar a sempre utilizar as aspas. 
+</p>
+
+<p>
+Outro ponto que vale a pena ser falado é sobre o && ou 'E COMERCIAL'. 
+</p>
+
+<p>
+É mais inteligente utilizar este cara que o ; 'PONTO E VIRGULA', mas porque 
+Jefferson? 
+</p>
+
+<p>
+Simples, com && ele só executará o segundo comando se o primeiro ter status de 
+saída '0' ou simplificando, não tendo erros. 
+</p>
+
+<p>
+Se o status for diferente de '0' ele não continuará, diferentemente do ';' que por 
+sua vez continua mesmo tendo falhado o comando anterior. 
+</p>
+
+<p>
+Como já listamos o diretório '/home/slackjeff/src', sabemos que nosso source está 
+em uma pasta chamada 'leafpad', vamos entrar nesta pasta agora e ir para o próximo 
+tópico. 
+</p>
+
+
+<h2 class="mark">A COMPILAÇÃO</h2>
+ 
+<p>
+Normalmente existe na internet uma "receita" de bolo que nada mais é que rodar o 
+configure, make e make install. 
+</p>
+
+<p>
+Isto é bem famoso quando se trata da própria compilação do kernel por exemplo. O 
+que ninguém te falou ainda é que este método não é o correto! Primeiro que fazendo 
+desta maneira, além de "sujar" a sua máquina, o pkgtool não conseguirá remover o 
+pacote depois. 
+</p>
+
+<p>
+Para isto é interessante criarmos sempre um pacote 'txz' ou o antigo formato 'tgz' 
+para que o pkgtool consiga identifica-lo e remove-lo com sucesso. Outro ponto é 
+configurar o configure de uma maneira mais "padrão". 
+</p>
+
+<pre>
+ ./configure         \
+--prefix=/usr        \
+--sysconfdir=/etc    \
+--localstatedir=/var \
+--mandir=/usr/man    \
+</pre>
+
+<p>
+Este é um exemplo do configure que eu praticamente sempre uso! Quando falo 
+praticamente é quase sempre, mas não que esta seja a nova receita. 
+</p>
+
+<p>
+Normalmente estes 4 caras (prefix, sysconfdir, localstatedir, mandir) ficam sempre 
+permanentes em minhas compilações, pois assim estou setando o básico para não 
+bagunçar meu sistema. 
+</p>
+
+<p>
+As outras opções eu leio no README e INSTALL. 
+</p>
+
+<p>
+<b>NOTA:</b> você sempre deve ler se existir o README ou INSTALL que está presente 
+no 
+fonte do programa que você está compilando. Se for um programador decente ele irá 
+arquivar todas opções do configure nestes arquivos (README e INSTALL). Veja quais 
+as melhores opção para sua necessidade e bote pra rodar. 
+</p>
+
+<p>
+Após você ler o README e INSTALL e encontrar todos parâmetros disponíveis e anotar 
+os que mais se adequam a sua necessidade, vamos chamar o configure. 
+</p>
+
+<pre>
+$  ./configure --prefix=/usr \
+--sysconfdir=/etc            \
+--localstatedir=/var         \
+--mandir=/usr/man            \
+</pre>
+
+<p>
+Se tudo ocorreu bem não irá aparecer nenhum erro, se aparecer provavelmente falta 
+alguma dependência, fica ao seu cargo buscar esta dependência para conseguir 
+prosseguir com a compilação. 
+</p>
+
+<p>
+Agora rodamos o 'make' para começar a compilação, dependendo da máquina e do pacote 
+pode demorar bastante tempo! 
+</p>
+
+<pre>
+$ <b>make</b>
+</pre>
+
+<p>
+Agora ao invés de rodar o simples 'make install', vamos incrementá-lo com 
+'DESTDIR', este cara burla o sistema, e ao invés de fazer a instalação do pacote em 
+'usr' ele instala em um diretório específico que você passar. 
+</p>
+
+<p>
+Ou seja, tudo do pacote vai estar dentro da pasta que você especificar, podemos 
+assim editar algumas coisas e incrementar. 
+</p>
+
+<p>
+Vamos passar o destino com a variável '$compi', que nada mais é que nosso diretório 
+'/tmp/build'. 
+</p>
+
+<pre>
+<b>$ make install DESTDIR="$compi"</b>
+</pre>
+
+<p>
+Feito! Agora vamos entrar na pasta: 
+</p>
+
+<pre>
+$ <b>cd $compi</b>
+</pre>
+
+<p>
+Vamos criar uma pasta chamada 'install', que dentro conterá todos arquivos 
+necessários para fazer um empacotamento adequado: 
+</p>
+
+<pre>
+$ <b>mkdir install && cd install</b>
+</pre>
+
+<h2 class="mark">SLACK-DESC</h2>
+ 
+<p>
+Já dentro da pasta 'install' criamos o arquivo 'slack-desc', o slack-desc nada mais 
+é que um arquivo que contém toda informação/descrição do pacote. 
+</p>
+
+<p>
+É de extrema importância seguir as normas, a uma régua chamada handy-ruler que 
+contém 77 colunas, você não deve ultrapassar. 
+</p>
+
+<p>
+Em appname use o nome do pacote, o mesmo deve se utilizar na hora de gerar o 
+pacote, se não dá problema! :) 
+</p>
+
+<pre>
+Exemplo do slack-desc do leafpad:
+       |-----handy-ruler------------------------------------------------------|
+leafpad: leafpad (short desc)
+leafpad:
+leafpad: Description of application - this description should be fairly
+leafpad: in-depth; in other words, make it clear what the package
+leafpad: but don't get too verbose.
+leafpad: This file can have a maximum of eleven (11) lines of text preceded by
+leafpad: the "leafpad: " designation.
+leafpad:
+leafpad: It's a good idea to include a link to the application's homepage too.
+leafpad:
+</pre>
+
+<p>
+Crie o slack-desc com seu editor de preferência: 
+</p>
+
+<pre>
+$ <b>nano slack-desc</b>
+</pre>
+
+<p>
+Insira todas informações e salve e feche e vamos para o próximo tópico! 
+</p>
+
+
+<h2 class="mark">STRIP E MANUAL</h2>
+ 
+<p>
+Ótimo, agora está quase na hora de criar nosso pacote! MAS falta alguma coisa! 
+Vamos usar o 'strip' para tirar os debugs, assim reduzindo nosso pacote um bocado. 
+Repita 2x o mesmo procedimento do strip. 
+</p>
+
+<pre>
+$ <b>strip -s /tmp/build/usr/lib/* /tmp/build/usr/bin/*</b>
+$ <b>strip -s /tmp/build/usr/lib/* /tmp/build/usr/bin/*</b>
+</pre>
+
+<p>
+Caso seu pacote tenha o diretório 'man', compacte-o com o gzip para ficar mais leve 
+ainda, para isto faça: 
+</p>
+
+<pre>
+$ <b>gzip -9 /tmp/build/usr/man/man?/*.?</b>
+</pre>
+
+<p>
+Ótimo, agora vamos para o próximo tópico, finalmente vamos criar nosso pacote! 
+Ansioso? Vamos lá! 
+</p>
+
+
+<h2 class="mark">CRIANDO O PACOTE</h2>
+
+<p>
+Antes de tudo, entre como root, pois agora finalmente precisamos utilizá-lo. 
+</p>
+
+<pre>
+$ <b>su</b>
+</pre>
+
+<p>
+Vou explicar um pouco sobre como funciona o pacote do Slackware! O pacote do 
+Slackware nada mais é que um arquivo comprimido, no exemplos: 
+<p>
+
+<ul>
+	<li>tgz = tar.gz</li>
+	<li>txz = tar.xz</li>
+</ul>
+
+<p>
+<b>NOTA:</b> o formato 'txz' é o novo padrão do Slackware, por ter uma compactação 
+mais 
+eficiente, tanto no tamanho como na velocidade. Então use sempre o formato txz para 
+criar seus pacotes. 
+</p>
+
+<p>
+Podemos simplesmente usar o método tradicional com o tar passando alguns parâmetros 
+para compactar o esquema todo ou usar uma ferramenta do pkgtool chamada 'makepkg'. 
+</p>
+
+<p>
+Ela faz todo "processo" de compactar e deixar o pacote nos trinques. Como root 
+rode: 
+</p>
+
+<pre>
+# <b>makepkg ../app-version-arch-build.txz</b>
+</pre>
+
+
+<b>Explicação sobre a identificação:</b>
+<ul>
+<li>app: nome do programa</li>
+<li>version: versão do programa</li>
+<li>arch: arquitetura do programa</li>
+<li>build: quantas vezes foi criado</li>
+<li>txz: formato do pacote</li>
+</ul>
+
+<p>
+O Pacote foi gerado uma pasta acima, agora é só instalar!<br>
+Se não tiver o pacote na máquina, use o installpkg. Caso já tenha e está compilando 
+uma versão mais atual, use o upgradepkg com o parâmetro 'install-new'.
+</p>
+
+<p>
+Está opção do upgradepkg faz o seguinte, se você já tem o pacote no sistema ele vai 
+verificar se está em uma versão superior, se estiver ele não faz nada, se estiver 
+em uma versão mais antiga ele irá atualizar.<br>
+Se o pacote não estiver no sistema ele vai fazer a instalação. Está é a forma mais 
+"segura" de instalar/atualizar um pacote.
+</p>
+
+<p>
+<b>NOTA:</b> Se caso o pacote que você compilo e criou estiver em uma versão antiga 
+ele 
+irá fazer o Downgrade. Tome cuidado.
+</p>
+
+<p>
+Bom divertimento.
+</p>
+
+</body>
+</html>
